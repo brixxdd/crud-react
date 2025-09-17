@@ -7,13 +7,15 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
-//comentario prueba
+//comentario prueba definitiva
 const app = express();
 // Configuración de CORS
 const allowedOrigins = [
-  'http://localhost:5173', // Origen del frontend de desarrollo (Vite)
-  'http://localhost:5174', // Origen del frontend de desarrollo (Vite)
-  'https://crud-react-frontend.vercel.app' // URL del frontend en Vercel
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'https://crud-react-psi-silk.vercel.app',
+  'https://www.crud-react-psi-silk.vercel.app',
+  'https://crud-react-psi-silk.vercel.app/'
 ];
 
 const corsOptions = {
