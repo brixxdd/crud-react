@@ -7,9 +7,26 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
-
+//comentario prueba
 const app = express();
-app.use(cors());
+// Configuración de CORS
+const allowedOrigins = [
+  'http://localhost:5173', // Origen del frontend de desarrollo (Vite)
+  'http://localhost:5174', // Origen del frontend de desarrollo (Vite)
+  'https://crud-react-frontend.vercel.app' // URL del frontend en Vercel
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  }
+};
+
+app.use(cors(corsOptions));
 
 // --- MIDDLEWARES ---
 const jsonParser = express.json(); // Middleware para parsear JSON
