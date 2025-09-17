@@ -69,58 +69,58 @@ const EditAlumnoModal = ({ alumno, materias, onSave, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Editar Alumno</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+      <div className="bg-white p-4 md:p-8 rounded-lg shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center text-gray-800">Editar Alumno</h2>
         <form onSubmit={handleSubmit} noValidate>
           <div className="mb-4">
-            <label htmlFor="nombre" className="block text-gray-700 font-semibold mb-2">Nombre</label>
+            <label htmlFor="nombre" className="block text-gray-700 font-semibold mb-2 text-sm md:text-base">Nombre</label>
             <input
               type="text"
               id="nombre"
               name="nombre"
               value={formData.nombre}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-gray-900 ${
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-gray-900 text-sm md:text-base ${
                 errors.nombre ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
               }`}
             />
             {errors.nombre && <p className="text-red-500 text-xs mt-1">{errors.nombre}</p>}
           </div>
           <div className="mb-4">
-            <label htmlFor="grado" className="block text-gray-700 font-semibold mb-2">Grado</label>
+            <label htmlFor="grado" className="block text-gray-700 font-semibold mb-2 text-sm md:text-base">Grado</label>
             <input
               type="number"
               id="grado"
               name="grado"
               value={formData.grado}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-gray-900 ${
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-gray-900 text-sm md:text-base ${
                 errors.grado ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
               }`}
             />
             {errors.grado && <p className="text-red-500 text-xs mt-1">{errors.grado}</p>}
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">Email</label>
+            <label htmlFor="email" className="block text-gray-700 font-semibold mb-2 text-sm md:text-base">Email</label>
             <input
               type="email"
               id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 text-sm md:text-base"
             />
           </div>
-          <div className="mb-6">
-            <label htmlFor="materias" className="block text-gray-700 font-semibold mb-2">Materias</label>
+          <div className="mb-4 md:mb-6">
+            <label htmlFor="materias" className="block text-gray-700 font-semibold mb-2 text-sm md:text-base">Materias</label>
             <select
               id="materias"
               name="materias"
               multiple
               value={selectedMaterias.map(String)}
               onChange={handleMateriaChange}
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-gray-900 h-32 ${
+              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 text-gray-900 h-24 md:h-32 text-sm md:text-base ${
                 errors.materias ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
               }`}
             >
@@ -132,17 +132,17 @@ const EditAlumnoModal = ({ alumno, materias, onSave, onClose }) => {
             </select>
             {errors.materias && <p className="text-red-500 text-xs mt-1">{errors.materias}</p>}
           </div>
-          <div className="flex justify-end gap-4">
+          <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-4">
             <button
               type="button"
               onClick={onClose}
-              className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400"
+              className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 text-sm md:text-base order-2 sm:order-1"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700"
+              className="bg-blue-600 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 text-sm md:text-base order-1 sm:order-2"
             >
               Guardar Cambios
             </button>

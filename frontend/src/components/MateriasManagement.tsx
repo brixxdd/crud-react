@@ -78,8 +78,8 @@ const MateriasManagement = ({ materias, maestros, onAddMateria, onUpdateMateria,
         {errors.newMateriaName && <p className="text-red-500 text-xs mt-1">{errors.newMateriaName}</p>}
       </form>
 
-      {/* Tabla de materias */}
-      <div className="overflow-x-auto">
+      {/* Vista de Tabla para Escritorio */}
+      <div className="overflow-x-auto hidden md:block">
         <table className="min-w-full leading-normal">
           <thead>
             <tr>
@@ -137,6 +137,46 @@ const MateriasManagement = ({ materias, maestros, onAddMateria, onUpdateMateria,
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Vista de Tarjetas para Móvil */}
+      <div className="md:hidden space-y-4">
+        {materias.map((materia) => (
+          <div key={materia.id} className="bg-white p-4 rounded-lg shadow border border-gray-200">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="text-lg font-bold text-gray-900">{materia.nombre}</h3>
+              <p className="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">ID: {materia.id}</p>
+            </div>
+            <div className="text-sm mb-4">
+              <p className="font-semibold text-gray-600">Maestros Asignados:</p>
+              <p className="text-gray-800">
+                {materia.maestros && materia.maestros.length > 0
+                  ? materia.maestros.map(m => m.nombre).join(', ')
+                  : 'Sin asignar'}
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-end gap-2">
+              <button
+                onClick={() => handleAssignClick(materia)}
+                className="bg-[#735920] hover:bg-[#8a6c2f] text-white font-bold py-1 px-3 rounded-full text-xs"
+              >
+                Asignar
+              </button>
+              <button
+                onClick={() => handleEditClick(materia)}
+                className="bg-[#D4B012] hover:bg-[#b89a10] text-black font-bold py-1 px-3 rounded-full text-xs"
+              >
+                Editar
+              </button>
+              <button
+                onClick={() => onDeleteMateria(materia.id)}
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded-full text-xs"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Modal de Edición de Materia */}

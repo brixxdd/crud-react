@@ -32,6 +32,9 @@ function App() {
   const [searchTermMaestros, setSearchTermMaestros] = useState('');
   const [currentPageMaestros, setCurrentPageMaestros] = useState(1);
 
+  // Estado para el sidebar móvil
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   const apiFetch = async (url, options = {}) => {
     const headers = { ...options.headers };
 
@@ -192,35 +195,47 @@ function App() {
   const paginatedMaestros = filteredMaestros.slice((currentPageMaestros - 1) * ITEMS_PER_PAGE, currentPageMaestros * ITEMS_PER_PAGE);
 
   const renderContent = () => {
+    // Indicador de carga si no hay datos
+    if (alumnos.length === 0 && maestros.length === 0 && materias.length === 0) {
+      return (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#192D63] mx-auto mb-4"></div>
+            <p className="text-gray-600">Cargando datos...</p>
+          </div>
+        </div>
+      );
+    }
+
     switch (activePage) {
       case 'dashboard': return <Dashboard alumnos={alumnos} maestros={maestros} materias={materias} inscripciones={inscripciones} />;
       case 'alumnos': return (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            <div className="lg:col-span-1"><FormAlumno onAdd={handleAddAlumno} materias={materias} /></div>
-            <div className="lg:col-span-2">
+          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 lg:gap-8">
+            <div className="lg:col-span-1 order-2 lg:order-1"><FormAlumno onAdd={handleAddAlumno} materias={materias} /></div>
+            <div className="lg:col-span-2 order-1 lg:order-2">
                 <div className="mb-4">
                   <input 
                     type="text"
                     placeholder="Buscar por nombre o grado..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#192D63] text-gray-900"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#192D63] text-gray-900 text-sm md:text-base"
                   />
                 </div>
                 <AlumnosTable alumnos={paginatedAlumnos} onDelete={handleDeleteAlumno} onEdit={() => {}} />
-                <div className="mt-4 flex justify-between items-center">
+                <div className="mt-4 flex flex-col sm:flex-row justify-between items-center gap-2">
                   <button 
                     onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                     disabled={currentPage === 1}
-                    className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base w-full sm:w-auto"
                   >
                     Anterior
                   </button>
-                  <span>Página {currentPage} de {totalPages}</span>
+                  <span className="text-sm md:text-base">Página {currentPage} de {totalPages}</span>
                   <button 
                     onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
                     disabled={currentPage === totalPages || totalPages === 0}
-                    className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base w-full sm:w-auto"
                   >
                     Siguiente
                   </button>
@@ -228,32 +243,32 @@ function App() {
             </div>
           </div>);
       case 'maestros': return (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            <div className="lg:col-span-1"><FormMaestro onAdd={handleAddMaestro} /></div>
-            <div className="lg:col-span-2">
+          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 lg:gap-8">
+            <div className="lg:col-span-1 order-2 lg:order-1"><FormMaestro onAdd={handleAddMaestro} /></div>
+            <div className="lg:col-span-2 order-1 lg:order-2">
                 <div className="mb-4">
                   <input 
                     type="text"
                     placeholder="Buscar por nombre o email..."
                     value={searchTermMaestros}
                     onChange={(e) => setSearchTermMaestros(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#192D63] text-gray-900"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#192D63] text-gray-900 text-sm md:text-base"
                   />
                 </div>
                 <MaestrosTable maestros={paginatedMaestros} />
-                <div className="mt-4 flex justify-between items-center">
+                <div className="mt-4 flex flex-col sm:flex-row justify-between items-center gap-2">
                   <button 
                     onClick={() => setCurrentPageMaestros(p => Math.max(p - 1, 1))}
                     disabled={currentPageMaestros === 1}
-                    className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base w-full sm:w-auto"
                   >
                     Anterior
                   </button>
-                  <span>Página {currentPageMaestros} de {totalPagesMaestros}</span>
+                  <span className="text-sm md:text-base">Página {currentPageMaestros} de {totalPagesMaestros}</span>
                   <button 
                     onClick={() => setCurrentPageMaestros(p => Math.min(p + 1, totalPagesMaestros))}
                     disabled={currentPageMaestros === totalPagesMaestros || totalPagesMaestros === 0}
-                    className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base w-full sm:w-auto"
                   >
                     Siguiente
                   </button>
@@ -268,8 +283,27 @@ function App() {
 
   return (
     <div className="app-container">
-      <Sidebar activePage={activePage} setActivePage={setActivePage} onLogout={handleLogout} />
-      <main className="content-container"><div className="p-6">{renderContent()}</div></main>
+      <Sidebar 
+        activePage={activePage} 
+        setActivePage={setActivePage} 
+        onLogout={handleLogout}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+      />
+      
+      {/* Botón hamburguesa para móviles */}
+      <button
+        onClick={() => setIsSidebarOpen(true)}
+        className="fixed top-4 left-4 z-30 lg:hidden bg-[#192D63] text-white p-2 rounded-md shadow-lg"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      
+      <main className={`content-container bg-gray-100 transition-all duration-300 ${isSidebarOpen ? 'blur-sm pointer-events-none' : ''}`}>
+        <div className="p-4 lg:p-6 min-h-screen w-full">{renderContent()}</div>
+      </main>
       {isEditModalOpen && <EditAlumnoModal alumno={editingAlumno} maestros={maestros} onSave={() => {}} onClose={() => setIsEditModalOpen(false)} />}
     </div>
   );

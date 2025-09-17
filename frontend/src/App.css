@@ -16,12 +16,17 @@ body {
 
 .app-container {
   display: flex;
+  min-height: 100vh;
+  background-color: #f7fafc; /* bg-gray-100 */
 }
 
 .content-container {
   flex-grow: 1;
-  height: 100vh;
+  min-height: 100vh;
   overflow-y: auto;
+  background-color: #f7fafc; /* bg-gray-100 */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Estilos adicionales para asegurar que el contenido no sea cubierto por la barra lateral si se vuelve responsiva */
